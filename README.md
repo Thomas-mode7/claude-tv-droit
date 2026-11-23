@@ -12,6 +12,11 @@ Outils juridiques pour Claude : sources officielles du droit français (Légifra
 | `rechercher_texte(requete, fond, date, nb)` | Codes, lois et décrets, conventions collectives, JO, CNIL |
 | `rechercher_jurisprudence(requete, juridiction, date_min, date_max, nb, publiees_seulement)` | Cassation, appel, première instance (Judilibre) ; administratif, constitutionnel (Légifrance) |
 | `get_decision(identifiant)` | Texte intégral + métadonnées (ECLI, solution, publication, visas, rapprochements) |
+| `calculer_delai(point_de_depart, jours, mois, annees, distance, alsace_moselle)` | Échéance d'un délai de procédure civile (art. 640-643 CPC), reports week-end et fériés |
+
+## Skills (`.claude/skills/`)
+`recherche-juridique` · `raisonnement-juridique` · `verification-citations` · `droit-dans-le-temps` · `procedure-civile-delais`
+Chargés automatiquement par Claude Code dans ce dépôt. Évaluation : `docs/evals/questions.md`.
 
 Chaque résultat porte l'identifiant officiel et l'URL publique ; chaque appel est journalisé dans `logs/audit.jsonl`.
 
@@ -24,6 +29,8 @@ Variables d'environnement : `PISTE_ENV` (`prod` | `sandbox`), `PISTE_CLIENT_ID`,
 ```bash
 python3 -m pytest -q tests     # tests hors ligne
 python3 -m piste.check         # diagnostic d'accès PISTE
+python3 -m outils.verifier_references   # références citées toujours en vigueur ?
+python3 -m outils.delais 2026-01-31 --mois 1   # calcul de délai
 ```
 
 ## Utilisation dans Claude Code

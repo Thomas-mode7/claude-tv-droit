@@ -24,10 +24,13 @@ Légende : 🤖 fait/automatisable par Claude · 👤 action de votre part · �
 - 🤖 Métadonnées de poids : formation, publication au Bulletin, solution, décisions liées
 - **Sortie** : recherche multi-juridictions avec un format unifié
 
-## Phase 3 : Skills de raisonnement (semaines 2-4, en parallèle)
-- 🤖 Brouillons : `recherche-juridique`, `raisonnement-juridique`, `verification-citations`, `droit-dans-le-temps`, `procedure-civile` (délais CPC)
-- 👤 Relecture par un juriste, ajout de vos trames maison (1 Skill par matière : civil, social, admin…)
-- 🤖 Jeu de tests : 20 questions types avec réponses de référence, pour mesurer avant/après
+## Phase 3 : Skills de raisonnement
+- ✅🤖 Skills (`.claude/skills/`) : `recherche-juridique`, `raisonnement-juridique` (+ trame de consultation), `verification-citations`, `droit-dans-le-temps`, `procedure-civile-delais`
+- ✅🤖 Calculateur de délais déterministe (art. 640-643 CPC, fériés, Alsace-Moselle) : `outils/delais.py` + outil MCP `calculer_delai`
+- ✅🤖 Contrôle automatique des références citées dans le dépôt : `python3 -m outils.verifier_references` (16/16 en vigueur)
+- ✅🤖 Jeu d'évaluation de 14 questions : `docs/evals/questions.md`
+- 👤 Relecture des Skills par un juriste ; ajout de vos trames maison et d'un Skill par matière (civil, social, admin…)
+- 🤖 Passer le jeu d'évaluation et consigner les résultats
 - **Sortie** : plus aucune citation sans appel d'outil correspondant
 
 ## Phase 4 : Synthèse de dossiers (semaines 4-6)

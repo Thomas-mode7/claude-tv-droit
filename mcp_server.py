@@ -75,5 +75,21 @@ def get_decision(identifiant: str, max_caracteres: int = 60000) -> dict:
     return sources.get_decision(identifiant, max_caracteres)
 
 
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True, openWorldHint=False))
+def calculer_delai(point_de_depart: str, jours: int = 0, mois: int = 0, annees: int = 0,
+                   distance: str | None = None, alsace_moselle: bool = False) -> dict:
+    """Échéance d'un délai de procédure civile selon les art. 640 à 643 CPC (calcul déterministe).
+
+    point_de_depart : AAAA-MM-JJ (acte, événement, décision ou notification qui fait courir le délai).
+    jours / mois / annees : durée du délai (ex. appel en matière contentieuse : mois=1).
+    distance : metropole | outre-mer | etranger (augmentation de l'art. 643).
+    alsace_moselle : ajoute le Vendredi saint et le 26 décembre.
+    Reporte au premier jour ouvrable si l'échéance tombe un samedi, dimanche ou jour férié.
+    """
+    import datetime as dt
+    from outils.delais import calculer
+    return calculer(dt.date.fromisoformat(point_de_depart), jours, mois, annees, distance, alsace_moselle)
+
+
 if __name__ == "__main__":
     mcp.run()
