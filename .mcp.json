@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "sources-juridiques": {
+      "command": "python3",
+      "args": ["mcp_server.py"],
+      "env": {
+        "PISTE_ENV": "${PISTE_ENV:-prod}",
+        "PISTE_CLIENT_ID": "${PISTE_CLIENT_ID}",
+        "PISTE_CLIENT_SECRET": "${PISTE_CLIENT_SECRET}"
+      }
+    }
+  }
+}
