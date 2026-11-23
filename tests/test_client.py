@@ -13,7 +13,9 @@ def test_token_and_cache(tmp_path):
         assert p.token() == "abc"; assert p.token() == "abc"
         assert post.call_count == 1  # second call served from cache
 
-def test_missing_creds():
+def test_missing_creds(monkeypatch):
+    for k in ("PISTE_CLIENT_ID", "PISTE_CLIENT_SECRET"): monkeypatch.delenv(k, raising=False)
+    monkeypatch.setattr(C, "load_env", lambda *a: None)
     p = C.Piste(env="sandbox", client_id="", client_secret="")
     try: p.token(); assert False
     except C.PisteError as e: assert "manquants" in str(e)

@@ -82,13 +82,18 @@ class Piste:
                 time.sleep(2 ** attempt); continue
             break
         if r.status_code >= 400:
-            raise PisteError(f"{api} {method} {path} -> {r.status_code}: {r.text[:300]}")
+            hint = " (abonnement à l'API absent ou non validé ?)" if r.status_code == 403 else ""
+            raise PisteError(f"{api} {method} {path} -> {r.status_code}{hint}: {r.text[:150]}")
         return r.json() if r.content else None
 
     # -- Légifrance ---------------------------------------------------------
     def lf_ping(self):
-        return self.s.get(self.h["legifrance"] + "/list/ping", timeout=self.timeout,
-                          headers={"Authorization": f"Bearer {self.token()}"}).text
+        r = self.s.get(self.h["legifrance"] + "/list/ping", timeout=self.timeout,
+                       headers={"Authorization": f"Bearer {self.token()}"})
+        if r.status_code != 200:
+            raise PisteError(f"legifrance GET /list/ping -> {r.status_code}"
+                             + (" (abonnement à l'API absent ou non validé ?)" if r.status_code == 403 else ""))
+        return r.text or "pong"
 
     def lf_article(self, article_id: str):
         """article_id = LEGIARTI000..."""
