@@ -13,9 +13,12 @@ Outils juridiques pour Claude : sources officielles du droit français (Légifra
 | `rechercher_jurisprudence(requete, juridiction, date_min, date_max, nb, publiees_seulement)` | Cassation, appel, première instance (Judilibre) ; administratif, constitutionnel (Légifrance) |
 | `get_decision(identifiant)` | Texte intégral + métadonnées (ECLI, solution, publication, visas, rapprochements) |
 | `calculer_delai(point_de_depart, jours, mois, annees, distance, alsace_moselle)` | Échéance d'un délai de procédure civile (art. 640-643 CPC), reports week-end et fériés |
+| `calculer_delai_administratif(recours, point_de_depart, heure, distance, …)` | Recours administratifs et contentieux des étrangers (délais francs, délais en heures) |
+| `calculer_delai_penal(procedure, point_de_depart, …)` | Appel, opposition, pourvoi en matière pénale (art. 801 CPP) |
+| `calculer_prescription_penale(type_prescription, categorie, date, …)` | Prescription de l'action publique et des peines |
 
 ## Skills (`.claude/skills/`)
-`recherche-juridique` · `raisonnement-juridique` · `verification-citations` · `droit-dans-le-temps` · `procedure-civile-delais`
+`recherche-juridique` · `raisonnement-juridique` · `verification-citations` · `droit-dans-le-temps` · `procedure-civile-delais` · `delais-administratifs-etrangers` · `delais-penaux`
 Chargés automatiquement par Claude Code dans ce dépôt. Évaluation : `docs/evals/questions.md`.
 
 Chaque résultat porte l'identifiant officiel et l'URL publique ; chaque appel est journalisé dans `logs/audit.jsonl`.

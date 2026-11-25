@@ -138,6 +138,10 @@ def get_article(code: str, numero: str, date: str | None = None) -> dict:
             "texte": clean(art.get("texteHtml") or art.get("texte")),
             "nota": clean(art.get("notaHtml") or art.get("nota")) or None,
             "url": url_legifrance(art["id"]),
+            "alerte": ({"ABROGE_DIFF": f"Abrogation différée : texte applicable jusqu'au {ms_to_date(art.get('dateFin'))} "
+                                       "exclu ; vérifier le texte qui le remplace (voir autres_versions).",
+                        "VIGUEUR_DIFF": "Version future, pas encore en vigueur à la date demandée."}
+                       .get(art.get("etat"))),
             "autres_versions": [{"id": v["id"], "etat": v.get("etat"),
                                  "du": ms_to_date(v.get("dateDebut")), "au": ms_to_date(v.get("dateFin"))}
                                 for v in (art.get("articleVersions") or []) if v["id"] != art["id"]],

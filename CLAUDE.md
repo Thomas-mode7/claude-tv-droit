@@ -7,7 +7,8 @@ Projet : outils juridiques (droit français) pour Claude. Voir `docs/00-roadmap.
 - Toujours donner l'identifiant officiel (LEGIARTI…, ECLI, n° de pourvoi / RG) et l'URL renvoyés par l'outil.
 - Pour un article : appeler `get_article` avec la **date des faits** ; signaler s'il existe d'autres versions.
 - Une source non vérifiée doit être marquée « non vérifié ».
-- Délais : toujours `calculer_delai` (ou `python3 -m outils.delais`), jamais de calcul de tête.
+- Délais : toujours les outils (`calculer_delai`, `calculer_delai_administratif`, `calculer_delai_penal`, `calculer_prescription_penale`), jamais de calcul de tête.
+- CPP réécrit au 1er janvier 2029 (ordonnance n° 2025-1091) : signaler les articles en `ABROGE_DIFF`.
 - Skills juridiques dans `.claude/skills/` ; après modification d'un Skill citant des LEGIARTI, lancer `python3 -m outils.verifier_references`.
 - Ne jamais envoyer d'éléments de dossiers clients (noms, faits identifiants) dans les requêtes de recherche.
 

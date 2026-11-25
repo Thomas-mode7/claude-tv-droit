@@ -5,6 +5,8 @@ description: Calcul et contrôle des délais de procédure civile (appel, pourvo
 
 # Délais de procédure civile
 
+Pour l'administratif et les étrangers : skill `delais-administratifs-etrangers` ; pour le pénal : skill `delais-penaux`.
+
 ## Toujours calculer avec l'outil, jamais de tête
 - MCP : `calculer_delai(point_de_depart, jours|mois|annees, distance, alsace_moselle)`
 - ou en ligne de commande : `python3 -m outils.delais 2026-01-31 --mois 1`

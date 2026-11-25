@@ -19,5 +19,11 @@ Critères communs à toutes les questions : ☐ toute référence porte un ident
 | 12 | Vérifie cette phrase : « Selon l'article 1382 du Code civil, en vigueur aujourd'hui, tout fait quelconque… » | Erreur relevée : depuis le 2016-10-01, c'est l'art. 1240 ; tableau de vérification | verification-citations |
 | 13 | Un client te décrit un litige (vente d'un véhicule d'occasion en panne 2 mois après) : analyse. | Structure faits → qualifications concurrentes (vice caché / conformité / dol) → problème de droit → règles vérifiées → application → arguments adverses → délais ; questions au client | raisonnement-juridique |
 | 14 | Rédige une consultation sur la question 13. | Suit `trame-consultation.md` ; sources vérifiées en annexe ; mention de validation par l'avocat | raisonnement-juridique |
+| 15 | Arrêté préfectoral notifié le 3 janvier 2026 : jusqu'à quand saisir le tribunal administratif ? | Délai franc de 2 mois → **mercredi 4 mars 2026** ; CE avis 9 juin 2026 n° 512314 ; R421-5 (mention des voies de recours) | delais-administratifs-etrangers |
+| 16 | Étranger assigné à résidence, OQTF notifiée le vendredi 18 avril 2025 : dernier jour du recours ? | 7 jours francs (L921-1) → samedi 26 → **lundi 28 avril 2025** (CE 10 août 2026 n° 508820) | delais-administratifs-etrangers |
+| 17 | Étranger en rétention, OQTF notifiée le vendredi 27/11/2026 à 17h45 : délai ? | 48 h d'heure à heure (L921-2, R921-2-1) → **dimanche 29/11/2026 à 17h45**, pas de report | delais-administratifs-etrangers |
+| 18 | Arrêt correctionnel prononcé le 17/12/2026 : délai de pourvoi ? | 10 jours francs (art. 568 depuis le 30/09/2024) → 27/12 dimanche → **lundi 28/12/2026** ; échéance prudente | delais-penaux |
+| 19 | Délit commis le 10/01/2015, aucun acte : est-il prescrit aujourd'hui ? | Ancien délai de 3 ans non acquis au 01/03/2017 → loi nouvelle, 6 ans (112-2 4°) → prescrit le **10/01/2021** | delais-penaux |
+| 20 | Les règles de prescription pénale seront-elles les mêmes en 2029 ? | Signale la réécriture du CPP par l'ordonnance n° 2025-1091 au 01/01/2029 (articles en abrogation différée) | delais-penaux, recherche-juridique |
 
 Résultats : noter dans `docs/evals/resultats-AAAA-MM-JJ.md` (question, critères OK/KO, remarque).

@@ -17,7 +17,8 @@ On part des **textes**, puis la **jurisprudence** qui les interprète, puis seul
    - article connu → `get_article(code, numero, date=<date des faits>)` ;
    - article inconnu → `rechercher_texte(requete, fond="codes", date=…)`, puis `get_article` sur les résultats pertinents ;
    - relation de travail → vérifier aussi `fond="conventions_collectives"` (attention au statut : `ABROGE`, `VIGUEUR`) ;
-   - lire le `nota` (entrée en vigueur, application aux instances en cours) et `autres_versions`.
+   - lire le `nota` (entrée en vigueur, application aux instances en cours) et `autres_versions` ;
+   - lire le champ `alerte` : `ABROGE_DIFF` = en vigueur mais **abrogation programmée** (ex. tout le CPP au 1er janvier 2029, ordonnance n° 2025-1091) ; `VIGUEUR_DIFF` = version future, pas encore applicable.
 3. **Jurisprudence**, de la plus haute à la plus basse :
    - `rechercher_jurisprudence(requete, juridiction="cassation", publiees_seulement=True)` d'abord ;
    - élargir aux non publiées, puis `appel` / `premiere_instance` pour l'état des juges du fond ;
@@ -35,4 +36,5 @@ On part des **textes**, puis la **jurisprudence** qui les interprète, puis seul
 - Renumérotations (réforme du droit des obligations au 1er octobre 2016 : l'ancien art. 1382 C. civ. est devenu l'art. 1240) : toujours raisonner avec la version applicable à la date des faits.
 - Numérotation des codes : `L1234-1` (sans point ni espace) pour les outils.
 - Judilibre ne couvre les cours d'appel et tribunaux que pour les décisions diffusées : absence de résultat ≠ absence de jurisprudence.
+- Délais : skills `procedure-civile-delais`, `delais-administratifs-etrangers`, `delais-penaux` (toujours calculer avec les outils).
 - HUDOC (CEDH) et CJUE ne sont pas encore branchés : les signaler comme « non vérifié » si on les mentionne.

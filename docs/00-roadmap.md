@@ -27,8 +27,10 @@ Légende : 🤖 fait/automatisable par Claude · 👤 action de votre part · �
 ## Phase 3 : Skills de raisonnement
 - ✅🤖 Skills (`.claude/skills/`) : `recherche-juridique`, `raisonnement-juridique` (+ trame de consultation), `verification-citations`, `droit-dans-le-temps`, `procedure-civile-delais`
 - ✅🤖 Calculateur de délais déterministe (art. 640-643 CPC, fériés, Alsace-Moselle) : `outils/delais.py` + outil MCP `calculer_delai`
-- ✅🤖 Contrôle automatique des références citées dans le dépôt : `python3 -m outils.verifier_references` (16/16 en vigueur)
-- ✅🤖 Jeu d'évaluation de 14 questions : `docs/evals/questions.md`
+- ✅🤖 Contrôle automatique des références citées dans le dépôt : `python3 -m outils.verifier_references` (59 références : toutes valides, 19 en abrogation différée au 01/01/2029)
+- ✅🤖 Délais administratifs et contentieux des étrangers (CJA, CESEDA réformé en juin 2026, délais francs selon CE avis n° 512314, délais en heures) : `outils/delais_admin.py` + outil MCP `calculer_delai_administratif` + Skill `delais-administratifs-etrangers`
+- ✅🤖 Délais de procédure pénale et prescription (action publique, peine, réforme 2017, infractions occultes, interruption, alerte recodification du CPP au 01/01/2029) : `outils/delais_penal.py` + outils MCP `calculer_delai_penal`, `calculer_prescription_penale` + Skill `delais-penaux`
+- ✅🤖 Jeu d'évaluation de 20 questions : `docs/evals/questions.md`
 - 👤 Relecture des Skills par un juriste ; ajout de vos trames maison et d'un Skill par matière (civil, social, admin…)
 - 🤖 Passer le jeu d'évaluation et consigner les résultats
 - **Sortie** : plus aucune citation sans appel d'outil correspondant

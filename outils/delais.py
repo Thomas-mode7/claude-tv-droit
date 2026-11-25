@@ -17,54 +17,10 @@ Usage :
 from __future__ import annotations
 
 import argparse
-import calendar
 import datetime as dt
 import json
 
-JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
-
-
-def paques(annee: int) -> dt.date:
-    """Dimanche de Pâques (algorithme grégorien de Meeus/Jones/Butcher)."""
-    a, b, c = annee % 19, annee // 100, annee % 100
-    d, e = b // 4, b % 4
-    f = (b + 8) // 25
-    g = (b - f + 1) // 3
-    h = (19 * a + b - d - g + 15) % 30
-    i, k = c // 4, c % 4
-    l = (32 + 2 * e + 2 * i - h - k) % 7
-    m = (a + 11 * h + 22 * l) // 451
-    mois = (h + l - 7 * m + 114) // 31
-    jour = (h + l - 7 * m + 114) % 31 + 1
-    return dt.date(annee, mois, jour)
-
-
-def jours_feries(annee: int, alsace_moselle: bool = False) -> dict[dt.date, str]:
-    p = paques(annee)
-    f = {
-        dt.date(annee, 1, 1): "1er janvier",
-        p + dt.timedelta(days=1): "lundi de Pâques",
-        dt.date(annee, 5, 1): "1er mai",
-        dt.date(annee, 5, 8): "8 mai",
-        p + dt.timedelta(days=39): "Ascension",
-        p + dt.timedelta(days=50): "lundi de Pentecôte",
-        dt.date(annee, 7, 14): "14 juillet",
-        dt.date(annee, 8, 15): "Assomption",
-        dt.date(annee, 11, 1): "Toussaint",
-        dt.date(annee, 11, 11): "11 novembre",
-        dt.date(annee, 12, 25): "Noël",
-    }
-    if alsace_moselle:
-        f[p - dt.timedelta(days=2)] = "Vendredi saint (Alsace-Moselle, communes avec temple protestant ou église mixte)"
-        f[dt.date(annee, 12, 26)] = "second jour de Noël (Alsace-Moselle)"
-    return f
-
-
-def ajouter_mois(d: dt.date, n: int) -> dt.date:
-    """Même quantième n mois plus tard ; à défaut, dernier jour du mois (art. 641 al. 2)."""
-    m = d.month - 1 + n
-    a, m = d.year + m // 12, m % 12 + 1
-    return dt.date(a, m, min(d.day, calendar.monthrange(a, m)[1]))
+from .calendrier import JOURS, ajouter_mois, jours_feries, paques, reporter  # noqa: F401  (réexport)
 
 
 def calculer(depart: dt.date, jours: int = 0, mois: int = 0, annees: int = 0,
@@ -75,16 +31,7 @@ def calculer(depart: dt.date, jours: int = 0, mois: int = 0, annees: int = 0,
     total_mois = annees * 12 + mois + augmentation
     brut = ajouter_mois(depart, total_mois) if total_mois else depart
     brut += dt.timedelta(days=jours)  # mois d'abord, puis jours (art. 641 al. 3)
-    fin, reports = brut, []
-    while True:
-        feries = jours_feries(fin.year, alsace_moselle)
-        if fin.weekday() >= 5:
-            reports.append(f"{fin.isoformat()} : {JOURS[fin.weekday()]}")
-        elif fin in feries:
-            reports.append(f"{fin.isoformat()} : {feries[fin]}")
-        else:
-            break
-        fin += dt.timedelta(days=1)
+    fin, reports = reporter(brut, alsace_moselle)
     return {
         "point_de_depart": depart.isoformat(),
         "duree": {"annees": annees, "mois": mois, "jours": jours},

@@ -91,5 +91,66 @@ def calculer_delai(point_de_depart: str, jours: int = 0, mois: int = 0, annees: 
     return calculer(dt.date.fromisoformat(point_de_depart), jours, mois, annees, distance, alsace_moselle)
 
 
+CALC = ToolAnnotations(readOnlyHint=True, openWorldHint=False)
+
+
+@mcp.tool(annotations=CALC)
+def calculer_delai_administratif(recours: str, point_de_depart: str, heure: str | None = None,
+                                 distance: str | None = None, alsace_moselle: bool = False,
+                                 decision_implicite: bool = False) -> dict:
+    """Échéance d'un délai de recours en contentieux administratif, y compris le contentieux des étrangers.
+
+    recours : recours_contentieux | appel | cassation | etrangers_un_mois (R911-1) | etrangers_sept_jours (L921-1) |
+              etrangers_48_heures (L921-2 / R921-2-1) | retention_cinq_jours | dublin_retention_sept_jours | cnda |
+              jld_retention_96_heures.
+    point_de_depart : AAAA-MM-JJ, date de notification ou de publication (ou de réception de la demande si decision_implicite).
+    heure : HH:MM de la notification, obligatoire pour les délais en heures.
+    distance : outre-mer | etranger (augmentation de l'art. R421-7 CJA, recours de R421-1 seulement).
+    Applique la règle des délais francs (CE, avis, 9 juin 2026, n° 512314) et le report au premier jour ouvrable ;
+    délais en heures décomptés d'heure à heure sans report.
+    """
+    from outils.delais_admin import calculer_admin
+    return calculer_admin(recours, point_de_depart, heure, distance, alsace_moselle, decision_implicite)
+
+
+@mcp.tool(annotations=CALC)
+def calculer_delai_penal(procedure: str, point_de_depart: str, reside_hors_metropole: bool = False,
+                         alsace_moselle: bool = False) -> dict:
+    """Échéance d'un délai de procédure pénale (report au premier jour ouvrable, art. 801 CPP).
+
+    procedure : appel_correctionnel | appel_incident | appel_procureur_general | appel_assises |
+                appel_ordonnance_instruction | opposition | pourvoi.
+    point_de_depart : AAAA-MM-JJ (prononcé, notification ou signification selon le cas).
+    reside_hors_metropole : pour l'opposition (1 mois au lieu de 10 jours).
+    Pourvoi : 10 jours francs pour les décisions prononcées depuis le 30 septembre 2024, 5 jours francs avant.
+    """
+    from outils.delais_penal import calculer_procedure_penale
+    return calculer_procedure_penale(procedure, point_de_depart, reside_hors_metropole, alsace_moselle)
+
+
+@mcp.tool(annotations=CALC)
+def calculer_prescription_penale(type_prescription: str, categorie: str, date: str,
+                                 dernier_acte_interruptif: str | None = None, date_apparition: str | None = None,
+                                 duree_speciale_annees: int | None = None, point_de_depart_special: str | None = None,
+                                 date_reference: str | None = None) -> dict:
+    """Prescription pénale de droit commun.
+
+    type_prescription : action_publique | peine.
+    categorie : crime | delit | contravention.
+    date : date de l'infraction (action_publique) ou date à laquelle la condamnation est devenue définitive (peine).
+    dernier_acte_interruptif : AAAA-MM-JJ (art. 9-2 CPP, action publique).
+    date_apparition : infraction occulte ou dissimulée (art. 9-1 CPP), avec délai butoir.
+    duree_speciale_annees / point_de_depart_special : régimes spéciaux, après vérification du texte (ex. mineurs victimes).
+    Gère la réforme du 1er mars 2017 (art. 112-2 4° C. pén.). Ne gère pas les suspensions.
+    """
+    from outils.delais_penal import calculer_prescription_action_publique, calculer_prescription_peine
+    if type_prescription == "peine":
+        return calculer_prescription_peine(categorie, date, date_reference)
+    if type_prescription != "action_publique":
+        raise ValueError("type_prescription : action_publique | peine")
+    return calculer_prescription_action_publique(categorie, date, dernier_acte_interruptif, date_apparition,
+                                                 duree_speciale_annees, point_de_depart_special, date_reference)
+
+
 if __name__ == "__main__":
     mcp.run()
